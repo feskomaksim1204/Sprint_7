@@ -47,3 +47,5 @@ logs/
 ### Test reports ###
 test-output/
 surefire-reports/
+### Allure binary ###
+.allure/
