@@ -1,5 +1,6 @@
 package client;
 
+import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import model.Courier;
 import model.CourierData;
@@ -8,7 +9,7 @@ import static io.restassured.RestAssured.given;
 
 public class CourierClient {
 
-    // Создание курьера
+    @Step("Создание курьера {courier.login}")
     public Response create(Courier courier) {
         return given()
                 .baseUri(CourierData.BASE_URL)
@@ -18,7 +19,7 @@ public class CourierClient {
                 .post(CourierData.COURIER_PATH);
     }
 
-    // Логин курьера
+    @Step("Логин курьера {courier.login}")
     public Response login(Courier courier) {
         return given()
                 .baseUri(CourierData.BASE_URL)
@@ -28,7 +29,7 @@ public class CourierClient {
                 .post(CourierData.COURIER_PATH + "/login");
     }
 
-    // Удаление курьера
+    @Step("Удаление курьера с id {courierId}")
     public Response delete(int courierId) {
         return given()
                 .baseUri(CourierData.BASE_URL)
@@ -36,7 +37,7 @@ public class CourierClient {
                 .delete(CourierData.COURIER_PATH + "/" + courierId);
     }
 
-    // Получение ID курьера по логину и паролю
+    @Step("Получение ID курьера {courier.login}")
     public int getCourierId(Courier courier) {
         return login(courier)
                 .then()

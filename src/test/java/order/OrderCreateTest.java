@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import static org.apache.http.HttpStatus.SC_CREATED;
 import static org.hamcrest.CoreMatchers.*;
 
 @RunWith(Parameterized.class)
@@ -20,20 +21,18 @@ public class OrderCreateTest {
     private Order order;
 
     private final List<String> color;
-    private final int expectedStatusCode;
 
-    public OrderCreateTest(List<String> color, int expectedStatusCode) {
+    public OrderCreateTest(List<String> color) {
         this.color = color;
-        this.expectedStatusCode = expectedStatusCode;
     }
 
     @Parameterized.Parameters
     public static Collection<Object[]> testData() {
         return Arrays.asList(new Object[][]{
-                {Arrays.asList("BLACK"), 201},           // только BLACK
-                {Arrays.asList("GREY"), 201},            // только GREY
-                {Arrays.asList("BLACK", "GREY"), 201},   // оба цвета
-                {Arrays.asList(), 201}                    // без цвета
+                {Arrays.asList("BLACK")},           // только BLACK
+                {Arrays.asList("GREY")},            // только GREY
+                {Arrays.asList("BLACK", "GREY")},   // оба цвета
+                {Arrays.asList()}                    // без цвета
         });
     }
 
@@ -41,11 +40,10 @@ public class OrderCreateTest {
     public void setUp() {
         orderClient = new OrderClient();
 
-        // Создаём заказ с тестовыми данными и переданным цветом
         order = new Order(
-                "Иван",
-                "Петров",
-                "Москва, ул. Ленина, д.1",
+                "Максим",
+                "Максимов",
+                "Москва, ул. Просторная, д.1",
                 "1",
                 "+7-999-123-45-67",
                 3,
@@ -60,7 +58,7 @@ public class OrderCreateTest {
         Response response = orderClient.create(order);
 
         response.then()
-                .statusCode(expectedStatusCode)
+                .statusCode(SC_CREATED)  // 201 для всех случаев
                 .body("track", is(notNullValue()));
     }
 }

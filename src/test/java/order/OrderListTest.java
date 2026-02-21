@@ -5,8 +5,9 @@ import org.junit.Before;
 import org.junit.Test;
 import io.restassured.response.Response;
 
+import static org.apache.http.HttpStatus.SC_OK;
 import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.Matchers.greaterThan;  // Добавлен этот импорт
+import static org.hamcrest.Matchers.greaterThan;
 
 public class OrderListTest {
     private OrderClient orderClient;
@@ -21,7 +22,7 @@ public class OrderListTest {
         Response response = orderClient.getOrders();
 
         response.then()
-                .statusCode(200)
+                .statusCode(SC_OK)  // 200
                 .body("orders", is(notNullValue()))
                 .body("orders.size()", greaterThan(0));
     }

@@ -1,5 +1,6 @@
 package client;
 
+import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import model.Order;
 import model.CourierData;
@@ -9,7 +10,7 @@ import static io.restassured.RestAssured.given;
 public class OrderClient {
     private static final String ORDER_PATH = "/api/v1/orders";
 
-    // Создание заказа
+    @Step("Создание заказа")
     public Response create(Order order) {
         return given()
                 .baseUri(CourierData.BASE_URL)
@@ -19,7 +20,7 @@ public class OrderClient {
                 .post(ORDER_PATH);
     }
 
-    // Получение списка заказов
+    @Step("Получение списка заказов")
     public Response getOrders() {
         return given()
                 .baseUri(CourierData.BASE_URL)
@@ -27,7 +28,7 @@ public class OrderClient {
                 .get(ORDER_PATH);
     }
 
-    // Отмена заказа (если понадобится)
+    @Step("Отмена заказа с track {trackId}")
     public Response cancel(int trackId) {
         return given()
                 .baseUri(CourierData.BASE_URL)
